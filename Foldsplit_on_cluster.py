@@ -89,7 +89,7 @@ def divide_clusters_into_folds(dataset, clusters, N):
     for fold_id in range(N):
         print(fold_id)
         threshold = avg_data_points + np.random.randint(0,20)
-        while(len(folds.get(fold_id, []))<threshold):
+        while(len(folds.get(fold_id, []))<threshold)&(len(unused_clusters)>0):
             seen_clusters=[]
             cluster_id=unused_clusters.pop()
             seen_clusters.append(cluster_id)
