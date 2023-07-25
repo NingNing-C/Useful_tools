@@ -1,0 +1,22 @@
+# python dna2aa.py --fastq ../fastq_r7/fastq_gz/4_S4_L001_R1_001.fastq --output ../EME_Kras_new_count/4_S4_L001_R1_001_peptides_count.csv
+
+
+# cat $1 | while read line; do
+#     echo start $line
+#     gzip -d ../fastq_r3-6/gz/$line.fastq.gz
+#     python dna2aa.py --fastq ../fastq_r3-6/gz/${line}.fastq --output ../EME_Kras_new_count/peptide_count_r3-6/${line}_peptides_count.csv > ${line}.log
+# done
+
+# cd /home/chenningning/Processing_Analysis_emeKRAS/IRBM
+# for file in *.gz; do echo "${file%.fastq*}"; done > file_list.txt
+
+cat $1 | while read line; do
+    echo start $line
+    gzip -d ../IRBM/${line}_1.fastq.gz
+    gzip -d ../IRBM/${line}_2.fastq.gz
+    echo done unzip
+    python dna2aa_double.py --fastq_fwd ../IRBM/${line}_1.fastq --fastq_rev ../IRBM/${line}_2.fastq --start_pattern ATGGCCGCA --end_pattern GGCGGTAGCGCGGCC --start_c 3 --end_c 0 --output ../IRBM/IRBM_egfrV3_new_count/${line}_peptides_count.csv --fwd_rev_mix True --fwd_start_pattern TA --rev_start_pattern GT 
+    #> ${line}.log
+done
+
+# python dna2aa_double.py --fastq_fwd ../test/test_1.fastq --fastq_rev ../test/test_2.fastq --start_pattern ATGGCCGCA --end_pattern GGCGGTAGCGCGGCC --start_c 3 --end_c 0 --output ../test/test_peptides_count.csv --fwd_rev_mix True --fwd_start_pattern TA --rev_start_pattern GT 
